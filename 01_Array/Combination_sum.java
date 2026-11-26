@@ -1,4 +1,48 @@
 
+import java.util.*;
+
+class Solution {
+
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+
+        List<List<Integer>> result = new ArrayList<>();
+
+        backtrack(candidates, target, 0, new ArrayList<>(), result);
+
+        return result;
+    }
+
+    public void backtrack(int[] candidates, int target, int index,
+                          List<Integer> current,
+                          List<List<Integer>> result) {
+
+        // Base case: target becomes 0
+        if (target == 0) {
+            result.add(new ArrayList<>(current));
+            return;
+        }
+
+        // Try all candidates starting from index
+        for (int i = index; i < candidates.length; i++) {
+
+            // If candidate is greater than target, skip it
+            if (candidates[i] > target) {
+                continue;
+            }
+
+            // Choose the current number
+            current.add(candidates[i]);
+
+            // Recursion: i (not i+1), because reuse is allowed
+            backtrack(candidates, target - candidates[i],
+                      i, current, result);
+
+            // Backtracking: remove the last chosen number
+            current.remove(current.size() - 1);
+        }
+    }
+}
+
 
 
 
